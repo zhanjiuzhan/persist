@@ -16,11 +16,11 @@
         <module>persist-app</module>
     </modules>
 
-
     <parent>
-        <groupId>com.duowan</groupId>
-        <artifactId>yyspring-boot-project</artifactId>
-        <version>2.0.1-SNAPSHOT</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.0.RELEASE</version>
+        <relativePath/>
     </parent>
 
     <dependencyManagement>
