@@ -7,5 +7,6 @@ package com.jcpl.persist;
 final public class MqConst {
     private MqConst(){}
 
+    public static final String SHOWER_EXCHANGE = "shower";
     public static final String HELP_MQ = "helpMq";
 }

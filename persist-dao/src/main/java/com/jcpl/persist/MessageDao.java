@@ -8,9 +8,16 @@ public interface MessageDao {
 
     /**
      * 发送信息
-     * @param mqName
      * @param message
      * @param <T>
      */
-    <T extends Message> void sendMessage(String mqName, T message);
+    <T extends Message> void sendMessage(T message);
+
+    /**
+     * 接受一个信息
+     * @param t
+     * @param <T>
+     * @return
+     */
+    <T extends Message> T receiveMessage(Class<T> t);
 }

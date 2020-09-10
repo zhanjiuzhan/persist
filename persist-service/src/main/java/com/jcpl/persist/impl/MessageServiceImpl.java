@@ -17,7 +17,7 @@ public class MessageServiceImpl implements MessageService {
     private MessageDao messageDao;
 
     @Override
-    public <T extends Message> void sendMessage(String mqName, T message) {
-        messageDao.sendMessage(mqName, message);
+    public <T extends Message> void sendMessage(T message) {
+        messageDao.sendMessage(message);
     }
 }

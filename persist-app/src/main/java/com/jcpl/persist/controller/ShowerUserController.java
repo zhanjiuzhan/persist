@@ -1,6 +1,7 @@
 package com.jcpl.persist.controller;
 
 import com.jcpl.persist.HelpMessage;
+import com.jcpl.persist.Message;
 import com.jcpl.persist.MessageService;
 import com.jcpl.persist.MqConst;
 import com.jcpl.persist.view.JcJsonView;
@@ -21,7 +22,7 @@ public class ShowerUserController {
 
     @PostMapping("/publish.do")
     public JcJsonView publishMessage(HelpMessage message) {
-        messageService.sendMessage(MqConst.HELP_MQ, message);
+        messageService.sendMessage(message);
         return new JcJsonView();
     }
 }
