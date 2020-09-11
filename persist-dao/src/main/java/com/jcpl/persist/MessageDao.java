@@ -12,12 +12,4 @@ public interface MessageDao {
      * @param <T>
      */
     <T extends Message> void sendMessage(T message);
-
-    /**
-     * 接受一个信息
-     * @param t
-     * @param <T>
-     * @return
-     */
-    <T extends Message> T receiveMessage(Class<T> t);
 }

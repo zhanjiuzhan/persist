@@ -7,4 +7,8 @@ spring:
     port: 5672
     username: guest
     password: 950828
+    # 确认消息已经发送到交换机
+    publisher-confirms: true
+    # 确认消息已经发送到队列
+    publisher-returns: true
 
