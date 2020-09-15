@@ -8,5 +8,5 @@ import java.util.concurrent.LinkedBlockingDeque;
  * @author Administrator
  */
 public interface SocketService extends ChannelAwareMessageListener {
-    LinkedBlockingDeque<? extends Message> queue = new LinkedBlockingDeque<>(1000);
+    LinkedBlockingDeque<Message> queue = new LinkedBlockingDeque<>(1000);
 }

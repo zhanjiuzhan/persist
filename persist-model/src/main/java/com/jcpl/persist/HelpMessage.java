@@ -23,6 +23,6 @@ public class HelpMessage implements Message {
 
     @Override
     public String getContent() {
-        return null;
+        return this.content;
     }
 }
