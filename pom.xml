@@ -13,8 +13,8 @@
         <module>persist-model</module>
         <module>persist-dao</module>
         <module>persist-service</module>
-        <module>persist-app</module>
-        <module>persist-consumer</module>
+        <module>persist-user</module>
+        <module>persist-admin</module>
     </modules>
 
     <parent>
