@@ -23,7 +23,12 @@ public enum ExceptionEnum implements ExResponse, ExAssert {
     /**
      * 主要针对于对外接口调用参数异常
      */
-    INVALID_PARAMETER_EXCEPTION(400, "参数[{1}]信息错误: {0}, {1}: {2}"),
+    INVALID_SAM_PAT_EXCEPTION(400, "请求参数错误"),
+
+    /**
+     * 主要针对于对外接口调用参数异常
+     */
+    INVALID_PARAMETER_EXCEPTION(400, "{0} [{1}: {2}]"),
 
     /**
      * 操作 出错 可以向外示警

@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Administrator
+ */
 @Controller
 @RequestMapping("/test")
 public class TestController {

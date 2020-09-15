@@ -2,14 +2,13 @@ package com.jcpl.persist;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 
 /**
  * @author chenglei
  */
 @SpringBootApplication
-public class AppApplication {
+public class UserApplication {
     public static void main(String[] args) {
-        SpringApplication.run(AppApplication.class);
+        SpringApplication.run(UserApplication.class);
     }
 }

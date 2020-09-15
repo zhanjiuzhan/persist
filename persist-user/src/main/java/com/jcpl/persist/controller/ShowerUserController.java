@@ -1,9 +1,8 @@
 package com.jcpl.persist.controller;
 
 import com.jcpl.persist.HelpMessage;
-import com.jcpl.persist.Message;
 import com.jcpl.persist.MessageService;
-import com.jcpl.persist.MqConst;
+import com.jcpl.persist.exception.ExceptionEnum;
 import com.jcpl.persist.view.JcJsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,8 +20,9 @@ public class ShowerUserController {
     private MessageService messageService;
 
     @PostMapping("/publish.do")
-    public JcJsonView publishMessage(HelpMessage message) {
-        messageService.sendMessage(message);
+    public JcJsonView publishMessage(String message) {
+        ExceptionEnum.INVALID_SAM_PAT_EXCEPTION.assertNotNull(message);
+        messageService.sendMessage(new HelpMessage(message));
         return new JcJsonView();
     }
 }

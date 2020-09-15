@@ -7,8 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author chenglei
  */
 @SpringBootApplication
-public class AppApplication {
+public class SocketApplication {
     public static void main(String[] args) {
-        SpringApplication.run(AppApplication.class);
+        SpringApplication.run(SocketApplication.class);
     }
 }

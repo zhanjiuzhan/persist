@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author chenglei
  */
-@ServerEndpoint("/websocket/{sid}")
+@ServerEndpoint("/websocket/shower")
 @Component
 public class WebSocketServer {
 
