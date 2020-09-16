@@ -1,6 +1,8 @@
 package com.jcpl.persist.config.mq;
 
 import com.jcpl.persist.MqConst;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -13,6 +15,8 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class RabbitMqConfig {
+
+    private final static Logger logger = LoggerFactory.getLogger(RabbitMqConfig.class);
 
     /**
      * 创建一个队列
@@ -54,9 +58,11 @@ public class RabbitMqConfig {
      * @param cause 原因
      */
     private static void confirmCallback(CorrelationData correlationData, boolean ack, String cause) {
-        System.out.println("ConfirmCallback:     "+"相关数据："+correlationData);
-        System.out.println("ConfirmCallback:     "+"确认情况："+ack);
-        System.out.println("ConfirmCallback:     "+"原因："+cause);
+        if (ack) {
+            logger.info("producer->broker->exchange成功: " + correlationData.getId());
+        } else {
+            logger.error("producer->broker->exchange失败[相关数据: " + correlationData + ", 原因: " + cause + "]");
+        }
     }
 
     /**
@@ -68,10 +74,7 @@ public class RabbitMqConfig {
      * @param routingKey 路由键
      */
     private static void returnCallback(Message message, int replyCode, String replyText, String exchange, String routingKey) {
-        System.out.println("ReturnCallback:     "+"消息："+message);
-        System.out.println("ReturnCallback:     "+"回应码："+replyCode);
-        System.out.println("ReturnCallback:     "+"回应信息："+replyText);
-        System.out.println("ReturnCallback:     "+"交换机："+exchange);
-        System.out.println("ReturnCallback:     "+"路由键："+routingKey);
+        logger.error("exchange->queue异常[消息: " + message + ", 回应码: " + replyCode +
+                ", 回应信息:" + replyText + ", 交换机:" + exchange + ", 路由键:" + routingKey + "]");
     }
 }

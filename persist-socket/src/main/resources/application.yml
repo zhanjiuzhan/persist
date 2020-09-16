@@ -7,3 +7,7 @@ spring:
     port: 5672
     username: guest
     password: 950828
+    listener:
+      simple:
+        # 手动消费
+        acknowledge-mode: manual

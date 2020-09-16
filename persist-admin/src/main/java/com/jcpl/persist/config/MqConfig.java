@@ -22,7 +22,7 @@ public class MqConfig {
     @Autowired
     private CustomerDemo customerDemo;
 
-    @Bean
+    //@Bean
     public SimpleMessageListenerContainer simpleMessageListenerContainer() {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory);
         container.setConcurrentConsumers(1);

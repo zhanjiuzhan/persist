@@ -1,7 +1,7 @@
 package com.jcpl.persist.config;
 
 import com.jcpl.persist.MqConst;
-import com.jcpl.persist.SocketService;
+import com.jcpl.persist.HelpMqListenerService;
 import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
@@ -19,7 +19,7 @@ public class MqConfig {
     private CachingConnectionFactory connectionFactory;
 
     @Autowired
-    private SocketService socketService;
+    private HelpMqListenerService socketService;
 
     @Bean
     public SimpleMessageListenerContainer simpleMessageListenerContainer() {
