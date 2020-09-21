@@ -12,4 +12,10 @@ public interface MessageService {
      * @param <T>
      */
     <T extends Message> void sendMessage(T message);
+
+    /**
+     * 接受一个信息
+     * @param msg
+     */
+    void receiveMessage(Message msg);
 }

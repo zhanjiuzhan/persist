@@ -1,13 +1,15 @@
 package com.jcpl.persist.config;
 
+import com.jcpl.persist.MessageService;
 import com.jcpl.persist.MqConst;
-import com.jcpl.persist.HelpMqListenerService;
 import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.Resource;
 
 /**
  * 消费者的mq配置
@@ -18,8 +20,8 @@ public class MqConfig {
     @Autowired
     private CachingConnectionFactory connectionFactory;
 
-    @Autowired
-    private HelpMqListenerService socketService;
+    @Resource(name="messageServiceHelpMqImpl")
+    private MessageService messageService;
 
     @Bean
     public SimpleMessageListenerContainer simpleMessageListenerContainer() {
@@ -31,7 +33,7 @@ public class MqConfig {
         //设置一个队列
         container.setQueueNames(MqConst.HELP_MQ);
 
-        container.setMessageListener(socketService);
+        container.setMessageListener(messageService);
         return container;
     }
 
