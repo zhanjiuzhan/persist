@@ -1,4 +1,4 @@
-package com.jcpl.persist.config;
+package com.jcpl.persist.impl.mq;
 
 import com.jcpl.persist.Message;
 import com.jcpl.persist.MessageDao;
