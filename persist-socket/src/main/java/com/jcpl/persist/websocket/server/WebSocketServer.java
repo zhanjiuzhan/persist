@@ -1,53 +1,28 @@
 package com.jcpl.persist.websocket.server;
 
-import com.alibaba.fastjson.JSON;
 import com.jcpl.persist.Message;
 import com.jcpl.persist.Publish;
+import com.jcpl.persist.SocketService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author chenglei
  */
-@ServerEndpoint("/websocket/shower")
 @Component
-public class WebSocketServer implements Publish {
+@ServerEndpoint("/websocket/shower")
+public class WebSocketServer implements ApplicationContextAware {
 
     private static final Logger logger = LoggerFactory.getLogger(WebSocketServer.class);
-    public static ConcurrentHashMap<String, Session> sessionPools = new ConcurrentHashMap<>();
-
-    @Override
-    public void publish(Message message) {
-        for(Session session : sessionPools.values()) {
-            sendMessage(session, JSON.toJSONString(message));
-        }
-    }
-
-    /**
-     * 发送信息
-     * @param session
-     * @param message
-     * @throws IOException
-     */
-    public void sendMessage(Session session, String message) {
-        if(session != null){
-            synchronized (session) {
-                try {
-                    logger.info("用户:" + session.getId() + "发送信息: " + message);
-                    session.getBasicRemote().sendText(message);
-                } catch (IOException e) {
-                    logger.error("websocket服务信息发送失败: " + e.toString());
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
+    private static SocketService socketService;
 
     /**
      * 建立连接成功调用
@@ -55,8 +30,7 @@ public class WebSocketServer implements Publish {
      */
     @OnOpen
     public void onOpen(Session session){
-        logger.info("用户: " + session.getId() + " 链接成功!");
-        sessionPools.put(session.getId(), session);
+        logger.info("接受到用户连接: " + session.getId() + " 链接成功!");
     }
 
     /**
@@ -66,7 +40,11 @@ public class WebSocketServer implements Publish {
     @OnClose
     public void onClose(Session session){
         logger.info("用户: " + session.getId() + " 链接关闭!");
-        sessionPools.remove(session.getId());
+        try {
+            if (session != null) {
+                session.close();
+            }
+        } catch (Exception e) {}
     }
 
     /**
@@ -75,8 +53,8 @@ public class WebSocketServer implements Publish {
      * @throws IOException
      */
     @OnMessage
-    public void onMessage(String message) {
-        logger.info("接受到信息: " + message);
+    public void onMessage(final String message, final Session session) {
+        socketService.receiveMessage(message, session);
     }
 
     /**
@@ -85,7 +63,17 @@ public class WebSocketServer implements Publish {
      * @param throwable
      */
     @OnError
-    public void onError(Session session, Throwable throwable){
+    public void onError(Session session, Throwable throwable) {
         logger.error("发生链接错误: " + throwable.getMessage());
+        try {
+            if (session != null) {
+                session.close();
+            }
+        } catch (Exception e) {}
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        WebSocketServer.socketService = applicationContext.getBean(SocketService.class);
     }
 }

@@ -5,6 +5,12 @@ package com.jcpl.persist;
  * @author Administrator
  */
 public class Relation {
+
+    /**
+     * 关系Id
+     */
+    private String relationId;
+
     /**
      * 用户名 (用户标志)
      */
@@ -19,6 +25,23 @@ public class Relation {
      * 链接创建时间
      */
     private String createTime;
+
+    public Relation() {}
+
+    public Relation(String username) {
+        this.relationId = JcUUIDUtils.generate32UUID();
+        this.status = 0;
+        this.createTime = JcDateUtils.getToDay();
+        this.username = username;
+    }
+
+    public String getRelationId() {
+        return relationId;
+    }
+
+    public void setRelationId(String relationId) {
+        this.relationId = relationId;
+    }
 
     public String getUsername() {
         return username;
@@ -36,6 +59,10 @@ public class Relation {
         this.status = status;
     }
 
+    public void setStatus(TYPE type) {
+        this.status = type.getType();
+    }
+
     public String getCreateTime() {
         return createTime;
     }
@@ -47,9 +74,31 @@ public class Relation {
     @Override
     public String toString() {
         return "Relation{" +
-                "username='" + username + '\'' +
+                "relationId='" + relationId + '\'' +
+                ", username='" + username + '\'' +
                 ", status=" + status +
                 ", createTime='" + createTime + '\'' +
                 '}';
+    }
+
+    public static enum TYPE {
+        /**
+         * 等待
+         */
+        WAITING(0),
+        /**
+         * 连接中
+         */
+        RUNNING(1);
+
+        private int type;
+
+        TYPE(int type) {
+            this.type = type;
+        }
+
+        public int getType() {
+            return type;
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.jcpl.persist.config;
+package com.jcpl.persist.config.mq;
 
 import com.jcpl.persist.MessageService;
 import com.jcpl.persist.MqConst;

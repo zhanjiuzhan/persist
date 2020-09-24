@@ -5,27 +5,14 @@ import java.util.Set;
 /**
  * @author Administrator
  */
-public interface RelationDao {
+public interface RelationService {
 
     /**
-     * 添加一个关系
+     * 创建一个关系
      * @param relation
      * @return
      */
-    boolean addRelation(Relation relation);
-
-    /**
-     * 取得一个用户关系
-     * @param relationId
-     * @return
-     */
-    Relation getRelation(String relationId);
-
-    /**
-     * 刷新关系
-     * @param relationId
-     */
-    void refreshRelation(String relationId);
+    boolean createRelation(Relation relation);
 
     /**
      * 添加到在线用户表中
@@ -33,6 +20,19 @@ public interface RelationDao {
      * @return
      */
     boolean addOnlineUser(String username);
+
+    /**
+     * 取到一个关系
+     * @param relationId
+     * @return
+     */
+    Relation getRelation(String relationId);
+
+    /**
+     * 刷新一个关系的生命周期
+     * @param relationId
+     */
+    void refreshRelation(String relationId);
 
     /**
      * 从在线用户表中移除

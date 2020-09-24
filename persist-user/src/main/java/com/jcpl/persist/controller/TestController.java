@@ -37,11 +37,8 @@ public class TestController {
 
     @GetMapping("/test3.do")
     public JcJsonView test3() {
-        Relation relation = new Relation();
-        relation.setStatus(1);
-        relation.setCreateTime("aaaa");
-        relation.setUsername("cl");
+        Relation relation = new Relation("dw_chenglei");
         relationDaoRedisImpl.addRelation(relation);
-        return new JcJsonView(relationDaoRedisImpl.getRelation(relation.getUsername()));
+        return new JcJsonView(relationDaoRedisImpl.getRelation(relation.getRelationId()));
     }
 }
