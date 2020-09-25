@@ -7,10 +7,9 @@ import java.io.Serializable;
  * @author chenglei
  */
 public interface Message extends Serializable {
-
     /**
-     * 取得消息内容
+     * 取得消息类型
      * @return
      */
-    String getContent();
+    int getType();
 }

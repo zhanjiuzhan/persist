@@ -5,15 +5,22 @@ package com.jcpl.persist;
  */
 
 public enum MessageType {
-    /**
-     * 信息类型
-     */
-    LOGIN_MSG(1, "建立连接"),
-    LOGOUT_MSG(2, "断开连接"),
-    INTERACTIVE_MSG(3, "信息交互"),
-    HEART_MSG(0, "心跳信息")
-    ;
 
+    /**
+     * 及时互助信息
+     */
+    TIMELY_MSG(1, "及时"),
+
+    /**
+     * 公益类的信息
+     */
+    WELFARE_MSG(2, "公益"),
+
+    /**
+     * 长时间的互助信息
+     */
+    LONG_TERM_MSG(3, "延时")
+    ;
     private int type;
     private String name;
 
@@ -22,7 +29,7 @@ public enum MessageType {
         this.name = name;
     }
 
-    public static MessageType getType(int type) {
+    public static MessageType get(int type) {
         for (MessageType obj : MessageType.values()) {
             if (obj.getType() == type) {
                 return obj;
@@ -33,5 +40,9 @@ public enum MessageType {
 
     public int getType() {
         return type;
+    }
+
+    public String getName() {
+        return name;
     }
 }

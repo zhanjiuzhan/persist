@@ -57,7 +57,6 @@ public class Heartbeat {
         this.longitude = longitude;
     }
 
-
     public static void main(String[] args) {
         SocketMessage socketMessage = new SocketMessage();
         socketMessage.setType(0);

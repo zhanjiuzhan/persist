@@ -25,10 +25,6 @@ public class SocketMessage {
         this.content = content;
     }
 
-    public MessageType getMessageType() {
-        return MessageType.getType(this.getType());
-    }
-
     @Override
     public String toString() {
         return "SocketMessage{" +

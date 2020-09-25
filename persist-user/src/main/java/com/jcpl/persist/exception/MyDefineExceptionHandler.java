@@ -22,7 +22,6 @@ public class MyDefineExceptionHandler {
 
     private Logger logger = LoggerFactory.getLogger(MyDefineExceptionHandler.class);
 
-
     /**
      * 业务异常
      * @param ex 异常

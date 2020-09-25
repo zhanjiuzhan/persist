@@ -74,7 +74,7 @@ public class SocketServiceImpl implements SocketService, Publish, ApplicationCon
         Optional.ofNullable(message).map((msg)-> JSON.parseObject(msg, SocketMessage.class))
             .ifPresent((objMsg)->{
                 logger.info("接受到信息: " + objMsg);
-                switch (objMsg.getMessageType()) {
+                switch (SocketMsgType.get(objMsg.getType())) {
                     case LOGIN_MSG:
                         // content内容几位relationId
                         openConnect(objMsg.getContent(), session);
@@ -148,14 +148,14 @@ public class SocketServiceImpl implements SocketService, Publish, ApplicationCon
 
     private String getLoginSuccessMsg() {
         SocketMessage msg = new SocketMessage();
-        msg.setType(MessageType.LOGIN_MSG.getType());
+        msg.setType(SocketMsgType.LOGIN_MSG.getType());
         msg.setContent(SUCCESS_LOGIN);
         return JSON.toJSONString(msg);
     }
 
     private String getHeartMsg(int content) {
         SocketMessage msg = new SocketMessage();
-        msg.setType(MessageType.HEART_MSG.getType());
+        msg.setType(SocketMsgType.HEART_MSG.getType());
         msg.setContent((++content) + "");
         return JSON.toJSONString(msg);
     }
