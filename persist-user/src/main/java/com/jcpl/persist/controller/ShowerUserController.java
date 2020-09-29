@@ -3,8 +3,8 @@ package com.jcpl.persist.controller;
 import com.jcpl.persist.*;
 import com.jcpl.persist.exception.ExceptionEnum;
 import com.jcpl.persist.impl.MsgVerificationFactory;
-import com.jcpl.persist.view.JcJsonView;
-import org.apache.http.HttpStatus;
+import com.jcpl.persist.view.JsonRetFactory;
+import com.jcpl.persist.view.product.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +31,7 @@ public class ShowerUserController {
      * @return
      */
     @PostMapping("/register.do")
-    public JcJsonView register(User user) {
+    public JsonView register(User user) {
         // TODO 判断user信息的正确性
         // TODO 目前只用到username
         final String username = user.getUsername();
@@ -39,7 +39,7 @@ public class ShowerUserController {
         Relation relation = new Relation(username);
         boolean flag = relationService.createRelation(relation);
         if (flag) {
-            return new JcJsonView(relation);
+            return JsonRetFactory.getRet(relation);
         }
         throw ExceptionEnum.OPERATION_EXCEPTION.newException("建立关系出错");
     }
@@ -49,17 +49,17 @@ public class ShowerUserController {
      * @return
      */
     @PostMapping("/socket/close.do")
-    public JcJsonView socketClose(String relationId) {
+    public JsonView socketClose(String relationId) {
         if (JcStringUtils.isNotEmpty(relationId)) {
             socketService.closeConnect(relationId);
         }
-        return new JcJsonView();
+        return JsonRetFactory.getRet();
     }
 
     @PostMapping("/publish.do")
     @ReqValidate(factory = MsgVerificationFactory.class)
-    public JcJsonView publishMessage(TimelyMsgFrom message) {
+    public JsonView publishMessage(TimelyMsgFrom message) {
         messageService.sendMessage(message);
-        return new JcJsonView();
+        return JsonRetFactory.getRet();
     }
 }

@@ -1,8 +1,9 @@
 package com.jcpl.persist.exception;
 
 import com.jcpl.persist.exception.exception.MyDefException;
-import com.jcpl.persist.view.JcJsonView;
-import com.jcpl.persist.view.model.JsonRes;
+import com.jcpl.persist.view.JsonRetFactory;
+import com.jcpl.persist.view.product.JsonView;
+import com.jcpl.persist.view.product.RetUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -28,7 +29,7 @@ public class MyDefineExceptionHandler {
      * @return 异常结果
      */
     @ExceptionHandler(value = MyDefException.class)
-    public JcJsonView handleMySelfException(MyDefException ex) {
+    public JsonView handleMySelfException(MyDefException ex) {
         JsonRes res = new JsonRes();
         switch (ex.getExceptionEnum()) {
             case OPERATION_EXCEPTION:
@@ -40,29 +41,29 @@ public class MyDefineExceptionHandler {
                 return exeInternalInvalidParameterException(res, ex);
             default:
                 logger.error("未知类型异常");
-                return new JcJsonView(500);
+                return JsonRetFactory.getRet(500);
         }
     }
 
-    private JcJsonView exeOperationException(JsonRes res, MyDefException ex) {
+    private JsonView exeOperationException(JsonRes res, MyDefException ex) {
         res.setStatus(ex.getCode());
         res.setMsg(ex.getMessage());
         logger.error(ex.getMessage());
-        return new JcJsonView(res);
+        return JsonRetFactory.getRet(res);
     }
 
-    private JcJsonView exeInvalidParameterException(JsonRes res, MyDefException ex) {
+    private JsonView exeInvalidParameterException(JsonRes res, MyDefException ex) {
         res.setStatus(ex.getCode());
         res.setMsg(ex.getMessage());
         logger.error("外部调用接口传递参数异常: " + ex.getMessage());
-        return new JcJsonView(res);
+        return JsonRetFactory.getRet(res);
     }
 
-    private JcJsonView exeInternalInvalidParameterException(JsonRes res, MyDefException ex) {
+    private JsonView exeInternalInvalidParameterException(JsonRes res, MyDefException ex) {
         res.setStatus(ex.getCode());
-        res.setMsg(JcJsonView.ERROR_MSG);
+        res.setMsg(RetUtils.ERROR_MSG);
         logger.error("内部调用接口传递参数异常: " + ex.getMessage());
         ex.printStackTrace();
-        return new JcJsonView(res);
+        return JsonRetFactory.getRet(res);
     }
 }

@@ -1,6 +1,6 @@
 package com.jcpl.persist.view.init;
 
-import com.jcpl.persist.view.JcJsonView;
+import com.jcpl.persist.view.product.JsonView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,9 +68,9 @@ public class ResCodeInit implements ApplicationRunner {
 
     private void initRetCode(Properties map, String path) {
         try {
-            Field retCode = JcJsonView.class.getDeclaredField("code");
+            Field retCode = JsonView.class.getDeclaredField("code");
             retCode.setAccessible(true);
-            Map<String, String> code = (Map<String, String>) retCode.get(JcJsonView.class);
+            Map<String, String> code = (Map<String, String>) retCode.get(JsonView.class);
             for (Map.Entry tmp : map.entrySet()) {
                 String key = (String)tmp.getKey();
                 String val = (String)tmp.getValue();
