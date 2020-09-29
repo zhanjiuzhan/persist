@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @Component
 @ControllerAdvice
 @ConditionalOnWebApplication
-@ConditionalOnMissingBean(MyDefineExceptionHandler.class)
 public class MyDefineExceptionHandler {
 
     private Logger logger = LoggerFactory.getLogger(MyDefineExceptionHandler.class);
@@ -30,40 +29,41 @@ public class MyDefineExceptionHandler {
      */
     @ExceptionHandler(value = MyDefException.class)
     public JsonView handleMySelfException(MyDefException ex) {
-        JsonRes res = new JsonRes();
+        JsonView.JsonRet ret = new JsonView.JsonRet();
         switch (ex.getExceptionEnum()) {
             case OPERATION_EXCEPTION:
-                return exeOperationException(res, ex);
+                return exeOperationException(ret, ex);
             case AUTHORIZATION_EXCEPTION:
             case INVALID_PARAMETER_EXCEPTION:
-                return exeInvalidParameterException(res, ex);
+            case INVALID_SAM_PAT_EXCEPTION:
+                return exeInvalidParameterException(ret, ex);
             case INTERNAL_INVALID_PARAMETER_EXCEPTION:
-                return exeInternalInvalidParameterException(res, ex);
+                return exeInternalInvalidParameterException(ret, ex);
             default:
                 logger.error("未知类型异常");
                 return JsonRetFactory.getRet(500);
         }
     }
 
-    private JsonView exeOperationException(JsonRes res, MyDefException ex) {
-        res.setStatus(ex.getCode());
-        res.setMsg(ex.getMessage());
+    private JsonView exeOperationException(JsonView.JsonRet ret, MyDefException ex) {
+        ret.setCode(ex.getCode());
+        ret.setMsg(ex.getMessage());
         logger.error(ex.getMessage());
-        return JsonRetFactory.getRet(res);
+        return JsonRetFactory.getRet(ret);
     }
 
-    private JsonView exeInvalidParameterException(JsonRes res, MyDefException ex) {
-        res.setStatus(ex.getCode());
-        res.setMsg(ex.getMessage());
+    private JsonView exeInvalidParameterException(JsonView.JsonRet ret, MyDefException ex) {
+        ret.setCode(ex.getCode());
+        ret.setMsg(ex.getMessage());
         logger.error("外部调用接口传递参数异常: " + ex.getMessage());
-        return JsonRetFactory.getRet(res);
+        return JsonRetFactory.getRet(ret);
     }
 
-    private JsonView exeInternalInvalidParameterException(JsonRes res, MyDefException ex) {
-        res.setStatus(ex.getCode());
-        res.setMsg(RetUtils.ERROR_MSG);
+    private JsonView exeInternalInvalidParameterException(JsonView.JsonRet ret, MyDefException ex) {
+        ret.setCode(ex.getCode());
+        ret.setMsg(RetUtils.ERROR_MSG);
         logger.error("内部调用接口传递参数异常: " + ex.getMessage());
         ex.printStackTrace();
-        return JsonRetFactory.getRet(res);
+        return JsonRetFactory.getRet(ret);
     }
 }

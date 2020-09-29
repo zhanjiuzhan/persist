@@ -2,7 +2,8 @@ package com.jcpl.persist.controller;
 
 import com.jcpl.persist.*;
 import com.jcpl.persist.exception.ExceptionEnum;
-import com.jcpl.persist.impl.MsgVerificationFactory;
+import com.jcpl.persist.impl.HelpMsgFrom;
+import com.jcpl.persist.reqlog.ControllerLog;
 import com.jcpl.persist.view.JsonRetFactory;
 import com.jcpl.persist.view.product.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,9 +58,11 @@ public class ShowerUserController {
     }
 
     @PostMapping("/publish.do")
-    @ReqValidate(factory = MsgVerificationFactory.class)
-    public JsonView publishMessage(TimelyMsgFrom message) {
-        messageService.sendMessage(message);
+    @ControllerLog
+    public JsonView publishMessage(HelpMsgFrom message) {
+        ExceptionEnum.INVALID_SAM_PAT_EXCEPTION.assertNotNull(null);
+        //message.validated();
+        //ExceptionEnum.INVALID_SAM_PAT_EXCEPTION.assertNotNull(null);messageService.sendMessage(message.convert());
         return JsonRetFactory.getRet();
     }
 }
