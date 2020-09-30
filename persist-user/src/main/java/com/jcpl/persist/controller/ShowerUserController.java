@@ -8,6 +8,7 @@ import com.jcpl.persist.view.JsonRetFactory;
 import com.jcpl.persist.view.product.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -63,5 +64,10 @@ public class ShowerUserController {
         message.validated();
         messageService.sendMessage(message.convert());
         return JsonRetFactory.getRet();
+    }
+
+    @GetMapping("/message/gets.do")
+    public JsonView gets() {
+        return JsonRetFactory.getRet(messageService.gets());
     }
 }

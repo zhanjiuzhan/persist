@@ -9,5 +9,5 @@ public interface Publish {
      * 发布信息
      * @param message
      */
-    void publish(Message message);
+    void publish(BaseMessage message);
 }

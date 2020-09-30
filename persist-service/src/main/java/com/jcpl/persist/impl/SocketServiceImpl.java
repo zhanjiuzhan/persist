@@ -168,7 +168,7 @@ public class SocketServiceImpl implements SocketService, Publish, ApplicationCon
     }
 
     @Override
-    public void publish(Message message) {
+    public void publish(BaseMessage message) {
         for(DefineSession session : sessionMap.values()) {
             sendMessage(session.getSession(), JSON.toJSONString(message));
         }

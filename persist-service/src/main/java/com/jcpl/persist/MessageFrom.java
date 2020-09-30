@@ -3,5 +3,5 @@ package com.jcpl.persist;
 /**
  * @author Administrator
  */
-public abstract class MessageFrom<R extends Message> implements Form<R>, ParameterVerification {
+public abstract class MessageFrom<R extends BaseMessage> implements Form<R>, ParameterVerification {
 }

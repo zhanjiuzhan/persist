@@ -10,9 +10,11 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,22 +22,33 @@ import java.util.Map;
  * @author chenglei
  */
 @Service
-public class MessageServiceHelpMqImpl implements MessageService, ChannelAwareMessageListener, ApplicationContextAware {
+public class MessageServiceHelpMqImpl implements MessageService<HelpMessage>, ChannelAwareMessageListener, ApplicationContextAware {
 
     private final static Logger logger = LoggerFactory.getLogger(MessageServiceHelpMqImpl.class);
     private Map<String, Publish> publishMap = new HashMap<>(1);
 
     @Resource(name = "messageDaoHelpMqImpl")
-    private MessageDao messageDao;
+    private MessageDao messageMq;
+
+    @Resource(name = "messageDaoHelpMysqlImpl")
+    private MessageDao messageMysql;
 
     @Override
-    public <T extends Message> void sendMessage(T message) {
-        messageDao.sendMessage(message);
+    @Transactional(value=MysqlConst.MASTER_TRANSACTION_MANAGER, rollbackFor=Exception.class)
+    public void sendMessage(HelpMessage message) {
+        messageMysql.sendMessage(message);
+        messageMq.sendMessage(message);
+        logger.info("成功发送信息: " + message.toString());
     }
 
     @Override
-    public void receiveMessage(final Message msg) {
+    public void receiveMessage(final BaseMessage msg) {
         publishMap.forEach((beanName, publish)-> publish.publish(msg));
+    }
+
+    @Override
+    public List<HelpMessage> gets() {
+        return messageMysql.gets();
     }
 
     @Override

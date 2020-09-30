@@ -14,16 +14,14 @@ import java.util.List;
 /**
  * @author Administrator
  */
-final public class JcDateUtils {
-    private JcDateUtils() {}
-
-    private static DateTimeFormatter defFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+public interface JcDateUtils {
+    DateTimeFormatter defFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     /**
      * 取得当前的时间
      * @return
      */
-    public static String getToDay() {
+    static String getToDay() {
          return getStringByDate(LocalDateTime.now());
     }
 
@@ -33,7 +31,7 @@ final public class JcDateUtils {
      * @param format
      * @return
      */
-    public static LocalDateTime getDayByString(String date, String format) {
+    static LocalDateTime getDayByString(String date, String format) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         LocalDateTime datetime = LocalDateTime.parse(date, formatter);
         return datetime;
@@ -44,7 +42,7 @@ final public class JcDateUtils {
      * @param date
      * @return
      */
-    public static LocalDateTime getDayByString(String date) {
+    static LocalDateTime getDayByString(String date) {
         LocalDateTime datetime = LocalDateTime.parse(date, defFormatter);
         return datetime;
     }
@@ -55,13 +53,13 @@ final public class JcDateUtils {
      * @param format
      * @return
      */
-    public static String getStringByDate(LocalDateTime date, String format) {
+    static String getStringByDate(LocalDateTime date, String format) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         String nowText = date.format(formatter);
         return nowText;
     }
 
-    public static String getStringByDate(LocalDateTime date) {
+    static String getStringByDate(LocalDateTime date) {
         return date.format(defFormatter);
     }
 
@@ -70,7 +68,7 @@ final public class JcDateUtils {
      * @param date
      * @return
      */
-    public static LocalDateTime convertDateToLDT(Date date) {
+    static LocalDateTime convertDateToLDT(Date date) {
         return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
     }
 
@@ -79,7 +77,7 @@ final public class JcDateUtils {
      * @param time
      * @return
      */
-    public static Date convertLDTToDate(LocalDateTime time) {
+    static Date convertLDTToDate(LocalDateTime time) {
         return Date.from(time.atZone(ZoneId.systemDefault()).toInstant());
     }
 
@@ -89,7 +87,7 @@ final public class JcDateUtils {
      * @param day
      * @return
      */
-    public static String getDateBySpDay(String now, long day){
+    static String getDateBySpDay(String now, long day){
         LocalDateTime ldt = getDayByString(now);
         return getStringByDate(ldt.plusDays(day));
     }
@@ -99,7 +97,7 @@ final public class JcDateUtils {
      * @param now
      * @return
      */
-    public static String getOnlyDay(String now){
+    static String getOnlyDay(String now){
         LocalDateTime ldt = getDayByString(now);
         return ldt.toLocalDate().toString();
     }
@@ -109,7 +107,7 @@ final public class JcDateUtils {
      * @param date
      * @return
      */
-    public static boolean checkDateValid(String date) {
+    static boolean checkDateValid(String date) {
         return JcStringUtils.isBlank(date) ? false : date.matches(
             "^\\d{4}-(0?\\d|[1][0-2])-([0-2]?\\d|[3][01]) [0-2]?\\d:[0-5]?\\d:[0-5]?\\d$");
     }
@@ -119,7 +117,7 @@ final public class JcDateUtils {
      * @param date
      * @return
      */
-    public static boolean checkDateValid2(String date) {
+    static boolean checkDateValid2(String date) {
         return JcStringUtils.isBlank(date) ? false : date.matches(
                 "^\\d{4}-(0?\\d|[1][0-2])-([0-2]?\\d|[3][01])$");
     }
@@ -129,7 +127,7 @@ final public class JcDateUtils {
      * @param time
      * @return
      */
-    public static String getDateByMillSeconds(Long time) {
+    static String getDateByMillSeconds(Long time) {
         return getStringByDate(LocalDateTime.ofEpochSecond(
             time/1000, 0, ZoneOffset.ofHours(8)
         ));
@@ -141,7 +139,7 @@ final public class JcDateUtils {
      * @param endTime
      * @return
      */
-    public static List<String> findDaysStr(String begintTime, String endTime) {
+    static List<String> findDaysStr(String begintTime, String endTime) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date dBegin = null;
         Date dEnd = null;
@@ -163,11 +161,5 @@ final public class JcDateUtils {
             daysStrList.add(dayStr);
         }
         return daysStrList;
-    }
-
-    public static void main(String[] args) {
-        findDaysStr("2020-01-01", "2020-07-13").forEach((data)->{
-            System.out.println(data);
-        });
     }
 }

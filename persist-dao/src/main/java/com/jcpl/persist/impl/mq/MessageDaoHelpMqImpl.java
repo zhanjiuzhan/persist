@@ -1,6 +1,6 @@
 package com.jcpl.persist.impl.mq;
 
-import com.jcpl.persist.Message;
+import com.jcpl.persist.HelpMessage;
 import com.jcpl.persist.MessageDao;
 import com.jcpl.persist.MqConst;
 import org.slf4j.Logger;
@@ -15,14 +15,14 @@ import org.springframework.stereotype.Repository;
  * @author chenglei
  */
 @Repository
-public class MessageDaoHelpMqImpl implements MessageDao {
+public class MessageDaoHelpMqImpl implements MessageDao<HelpMessage> {
 
     private final static Logger logger = LoggerFactory.getLogger(MessageDaoHelpMqImpl.class);
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
     @Override
-    public <T extends Message> void sendMessage(T message) {
+    public void sendMessage(HelpMessage message) {
         rabbitTemplate.convertAndSend(MqConst.SHOWER_EXCHANGE, MqConst.HELP_MQ, message, new CorrelationData(System.currentTimeMillis()+""));
     }
 }

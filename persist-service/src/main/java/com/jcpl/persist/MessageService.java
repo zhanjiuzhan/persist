@@ -1,21 +1,28 @@
 package com.jcpl.persist;
 
+import java.util.List;
+
 /**
  * 消息服务
  * @author chenglei
  */
-public interface MessageService {
+public interface MessageService<T> {
 
     /**
      * 发送信息
      * @param message
-     * @param <T>
      */
-    <T extends Message> void sendMessage(T message);
+    void sendMessage(T message);
 
     /**
      * 接受一个信息
      * @param msg
      */
-    void receiveMessage(Message msg);
+    void receiveMessage(BaseMessage msg);
+
+    /**
+     * 取得所有的求助信息
+     * @return
+     */
+    List<T> gets();
 }

@@ -5,16 +5,14 @@ import java.lang.reflect.Array;
 /**
  * @author chenglei
  */
-final public class JcStringUtils {
-
-    private JcStringUtils() {}
+public interface JcStringUtils {
 
     /**
      * 判断字符串是否为空, 空格啥的也算字符串
      * @param cs
      * @return
      */
-    public static boolean isEmpty(CharSequence cs) {
+    static boolean isEmpty(CharSequence cs) {
         return cs == null || cs.length() == 0;
     }
 
@@ -23,7 +21,7 @@ final public class JcStringUtils {
      * @param cs
      * @return
      */
-    public static boolean isNotEmpty(CharSequence cs) {
+    static boolean isNotEmpty(CharSequence cs) {
         return !isEmpty(cs);
     }
 
@@ -32,7 +30,7 @@ final public class JcStringUtils {
      * @param css
      * @return
      */
-    public static boolean isAllEmpty(CharSequence... css) {
+    static boolean isAllEmpty(CharSequence... css) {
         if (css == null || Array.getLength(css) == 0) {
             return true;
         } else {
@@ -54,7 +52,7 @@ final public class JcStringUtils {
      * @param css
      * @return
      */
-    public static boolean isAllNotEmpty(CharSequence... css) {
+    static boolean isAllNotEmpty(CharSequence... css) {
         if (css == null || Array.getLength(css) == 0) {
             return false;
         } else {
@@ -76,7 +74,7 @@ final public class JcStringUtils {
      * @param cs
      * @return
      */
-    public static int length(CharSequence cs) {
+    static int length(CharSequence cs) {
         return cs == null ? 0 : cs.length();
     }
 
@@ -87,7 +85,7 @@ final public class JcStringUtils {
      * @param cs
      * @return
      */
-    public static boolean isBlank(CharSequence cs) {
+    static boolean isBlank(CharSequence cs) {
         int strLen = length(cs);
         if (strLen == 0) {
             return true;
@@ -106,7 +104,7 @@ final public class JcStringUtils {
      * @param cs
      * @return
      */
-    public static boolean isNotBlank(CharSequence cs) {
+    static boolean isNotBlank(CharSequence cs) {
         return !isBlank(cs);
     }
 
@@ -116,7 +114,7 @@ final public class JcStringUtils {
      * @param phone
      * @return
      */
-    public static String dealPhone(String phone) {
+    static String dealPhone(String phone) {
         if (isNotEmpty(phone) && phone.matches("^\\d{11}$")) {
             return phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
         }
@@ -128,7 +126,7 @@ final public class JcStringUtils {
      * @param c
      * @return
      */
-    public boolean isChineseByScript(char c) {
+    static boolean isChineseByScript(char c) {
         Character.UnicodeScript sc = Character.UnicodeScript.of(c);
         if (sc == Character.UnicodeScript.HAN) {
             return true;
@@ -141,7 +139,7 @@ final public class JcStringUtils {
      * @param c
      * @return
      */
-    public boolean isChinesePunctuation(char c) {
+    static boolean isChinesePunctuation(char c) {
         Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
         if (ub == Character.UnicodeBlock.GENERAL_PUNCTUATION
                 || ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
@@ -152,9 +150,5 @@ final public class JcStringUtils {
         } else {
             return false;
         }
-    }
-
-    public static void main(String[] args) {
-        System.out.println(dealPhone("12112445422"));
     }
 }

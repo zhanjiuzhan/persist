@@ -1,7 +1,8 @@
 package com.jcpl.persist.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.jcpl.persist.HelpMessage;
-import com.jcpl.persist.Message;
+import com.jcpl.persist.BaseMessage;
 import com.jcpl.persist.MessageFrom;
 import com.jcpl.persist.exception.ExceptionEnum;
 
@@ -107,8 +108,12 @@ public class HelpMsgFrom extends MessageFrom<HelpMessage> {
     public HelpMessage convert() {
         HelpMessage message = new HelpMessage();
         message.setContent(this.content);
-        message.setDetail(this.detail);
-        message.setImgPath(this.imgPath);
+        if (this.detail != null) {
+            message.setDetail(this.detail);
+        }
+        if (this.imgPath != null && this.imgPath.length > 0) {
+            message.setImgPath(JSON.toJSONString(this.imgPath));
+        }
         message.setLatitude(this.latitude);
         message.setLongitude(this.getLongitude());
         message.setTitle(this.title);
@@ -118,7 +123,7 @@ public class HelpMsgFrom extends MessageFrom<HelpMessage> {
 
     @Override
     public void validated() {
-        ExceptionEnum.INVALID_PARAMETER_EXCEPTION.assertTrue(Message.Type.contains(type), "消息类型错误", "type", type);
+        ExceptionEnum.INVALID_PARAMETER_EXCEPTION.assertTrue(BaseMessage.Type.contains(type), "消息类型错误", "type", type);
         ExceptionEnum.INVALID_PARAMETER_EXCEPTION.assertTrue(
             title != null && title.length() > 0 && title.length() <= 16, "标题不合法", "title", title);
         ExceptionEnum.INVALID_PARAMETER_EXCEPTION.assertTrue(

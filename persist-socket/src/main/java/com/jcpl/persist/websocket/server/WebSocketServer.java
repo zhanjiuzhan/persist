@@ -1,7 +1,5 @@
 package com.jcpl.persist.websocket.server;
 
-import com.jcpl.persist.Message;
-import com.jcpl.persist.Publish;
 import com.jcpl.persist.SocketService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
