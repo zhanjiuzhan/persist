@@ -8,6 +8,7 @@ public interface Publish {
     /**
      * 发布信息
      * @param message
+     * @return
      */
-    void publish(BaseMessage message);
+    boolean publish(BaseMessage message);
 }

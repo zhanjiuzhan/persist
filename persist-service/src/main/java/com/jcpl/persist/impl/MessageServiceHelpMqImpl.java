@@ -4,6 +4,7 @@ import com.jcpl.persist.*;
 import com.rabbitmq.client.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.ChannelAwareMessageListener;
 import org.springframework.amqp.support.converter.SimpleMessageConverter;
 import org.springframework.beans.BeansException;
@@ -42,8 +43,12 @@ public class MessageServiceHelpMqImpl implements MessageService<HelpMessage>, Ch
     }
 
     @Override
-    public void receiveMessage(final BaseMessage msg) {
-        publishMap.forEach((beanName, publish)-> publish.publish(msg));
+    public boolean receiveMessage(final BaseMessage msg) {
+        boolean flag = false;
+        for (Publish publish : publishMap.values()) {
+            flag = publish.publish(msg);
+        }
+        return flag;
     }
 
     @Override
@@ -52,12 +57,15 @@ public class MessageServiceHelpMqImpl implements MessageService<HelpMessage>, Ch
     }
 
     @Override
-    public void onMessage(org.springframework.amqp.core.Message message, Channel channel) throws Exception {
+    public void onMessage(Message message, Channel channel) throws Exception {
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
         try {
             HelpMessage msg = (HelpMessage) new SimpleMessageConverter().fromMessage(message);
-            receiveMessage(msg);
-            channel.basicAck(deliveryTag, false);
+            if (receiveMessage(msg)) {
+                channel.basicAck(deliveryTag, false);
+            } else {
+                channel.basicReject(deliveryTag, true);
+            }
         } catch (Exception e) {
             // 消费失败信息应该被记录 TODO
             channel.basicReject(deliveryTag, false);

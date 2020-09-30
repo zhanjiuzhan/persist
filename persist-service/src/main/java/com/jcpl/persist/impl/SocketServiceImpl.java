@@ -168,9 +168,13 @@ public class SocketServiceImpl implements SocketService, Publish, ApplicationCon
     }
 
     @Override
-    public void publish(BaseMessage message) {
+    public boolean publish(BaseMessage message) {
+        if (sessionMap.size() == 0) {
+            return false;
+        }
         for(DefineSession session : sessionMap.values()) {
             sendMessage(session.getSession(), JSON.toJSONString(message));
         }
+        return true;
     }
 }

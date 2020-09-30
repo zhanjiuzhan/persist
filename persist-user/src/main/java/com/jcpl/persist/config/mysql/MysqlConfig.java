@@ -2,11 +2,11 @@ package com.jcpl.persist.config.mysql;
 
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
-import org.apache.ibatis.session.Configuration;
 import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.Filter;
 import javax.servlet.Servlet;
@@ -14,7 +14,7 @@ import javax.servlet.Servlet;
 /**
  * @author Administrator
  */
-@org.springframework.context.annotation.Configuration
+@Configuration
 public class MysqlConfig {
 
     /**
@@ -23,12 +23,7 @@ public class MysqlConfig {
      */
     @Bean
     public ConfigurationCustomizer configurationCustomizer() {
-        return new ConfigurationCustomizer() {
-            @Override
-            public void customize(Configuration configuration) {
-                configuration.setMapUnderscoreToCamelCase(true);
-            }
-        };
+        return configuration -> configuration.setMapUnderscoreToCamelCase(true);
     }
 
     @Bean

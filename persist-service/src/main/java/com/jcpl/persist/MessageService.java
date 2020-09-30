@@ -17,8 +17,9 @@ public interface MessageService<T> {
     /**
      * 接受一个信息
      * @param msg
+     * @return
      */
-    void receiveMessage(BaseMessage msg);
+    boolean receiveMessage(BaseMessage msg);
 
     /**
      * 取得所有的求助信息
