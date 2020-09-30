@@ -47,6 +47,15 @@ public interface Message extends Serializable {
             throw new RuntimeException("枚举范围有误");
         }
 
+        public static boolean contains(int type) {
+            for (Type obj : Type.values()) {
+                if (obj.getType() == type) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public int getType() {
             return type;
         }

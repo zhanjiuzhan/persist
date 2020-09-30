@@ -60,9 +60,8 @@ public class ShowerUserController {
     @PostMapping("/publish.do")
     @ControllerLog
     public JsonView publishMessage(HelpMsgFrom message) {
-        ExceptionEnum.INVALID_SAM_PAT_EXCEPTION.assertNotNull(null);
-        //message.validated();
-        //ExceptionEnum.INVALID_SAM_PAT_EXCEPTION.assertNotNull(null);messageService.sendMessage(message.convert());
+        message.validated();
+        messageService.sendMessage(message.convert());
         return JsonRetFactory.getRet();
     }
 }

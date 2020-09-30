@@ -10,7 +10,7 @@ public class HelpMessage implements Message {
     /**
      * 信息id 这个由数据库自动生成
      */
-    private long id;
+    private String id;
 
     /**
      * 信息类型
@@ -47,11 +47,18 @@ public class HelpMessage implements Message {
      */
     private String[] imgPath;
 
-    public long getId() {
+    /**
+     * 每创建一个HelpMessage其Id都是独一无二的
+     */
+    public HelpMessage() {
+        this.id = JcUUIDUtils.generate32UUID();
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

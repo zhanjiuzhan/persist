@@ -123,6 +123,37 @@ final public class JcStringUtils {
         return phone;
     }
 
+    /**
+     * 判断一个字符是否是中文字符
+     * @param c
+     * @return
+     */
+    public boolean isChineseByScript(char c) {
+        Character.UnicodeScript sc = Character.UnicodeScript.of(c);
+        if (sc == Character.UnicodeScript.HAN) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 判断一个字符是否是中文标点符号
+     * @param c
+     * @return
+     */
+    public boolean isChinesePunctuation(char c) {
+        Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
+        if (ub == Character.UnicodeBlock.GENERAL_PUNCTUATION
+                || ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
+                || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS
+                || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_FORMS
+                || ub == Character.UnicodeBlock.VERTICAL_FORMS) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println(dealPhone("12112445422"));
     }

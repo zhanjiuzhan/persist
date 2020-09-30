@@ -1,5 +1,7 @@
 package com.jcpl.persist.exception.exception;
 
+import java.util.function.Supplier;
+
 /**
  * 一个专门处理自定义异常的断言
  * @author chenglei
@@ -64,6 +66,15 @@ public interface ExAssert {
         if (!isTrue) {
             throw newException(args);
         }
+    }
+
+    /**
+     * 断言是否True，是True则测试用例通过。
+     * @param supplier
+     * @param args
+     */
+    default void assertTrue(Supplier<Boolean> supplier, Object... args) {
+        assertTrue(supplier.get(), args);
     }
 
     /**
