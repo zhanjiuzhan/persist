@@ -12,6 +12,7 @@
     <artifactId>persist-utils</artifactId>
 
     <dependencies>
+        <!-- JSON 数据转换的 -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>

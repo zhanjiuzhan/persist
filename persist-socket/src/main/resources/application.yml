@@ -22,14 +22,3 @@ spring:
         max-wait: -1
         max-idle: 8
         min-idle: 4
-  datasource:
-    master:
-      username: root
-      password: 950828
-      jdbc-url: jdbc:mysql://127.0.0.1:3306/persist_user_master?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
-      driver-class-name: com.mysql.cj.jdbc.Driver
-    slave:
-      username: root
-      password: 950828
-      url: jdbc:mysql://127.0.0.1:3306/persist_user_slave?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
-      driver-class-name: com.mysql.cj.jdbc.Driver
