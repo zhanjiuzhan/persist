@@ -1,0 +1,30 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: persist-config-server
+  profiles:
+    # 使用本地配置文件
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations:
+            - classpath:/config
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: 950828
+
+# 暴露刷新地址 bus-refresh
+#Spring boot 2.0的改动较大，/bus/refresh全部整合到actuator里面了，变成了/actuator/bus-refresh,所以之前1.x的management.security.enabled全部失效，不适用于2.0
+#  注意：config-server和config-client的配置都需要加上
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh
+

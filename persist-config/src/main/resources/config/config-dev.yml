@@ -1,0 +1,4 @@
+# persist-socket \u914D\u7F6E
+socket:
+  session:
+    maxIdleTimeOut: 9500

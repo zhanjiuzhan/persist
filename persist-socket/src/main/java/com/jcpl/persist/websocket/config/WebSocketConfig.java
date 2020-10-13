@@ -1,21 +1,20 @@
 package com.jcpl.persist.websocket.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.socket.server.standard.ServerEndpointExporter;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.stereotype.Component;
 
 /**
  * @author chenglei
  */
-@Configuration
+@RefreshScope
+@Component
 public class WebSocketConfig {
 
-    /**
-     * 这个Bean会自动注册使用@ServerEndpoint注解声明的websocket endpoint
-     * @return
-     */
-    @Bean
-    public ServerEndpointExporter serverEndpointExporter() {
-        return new ServerEndpointExporter();
+    @Value("${socket.session.maxIdleTimeOut}")
+    private long maxIdleTimeOut = 5000;
+
+    public long getMaxIdleTimeOut() {
+        return maxIdleTimeOut;
     }
 }
