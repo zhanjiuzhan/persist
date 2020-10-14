@@ -9,30 +9,20 @@ import javax.websocket.Session;
 public interface SocketService {
 
     /**
-     * 服务器和用户成功创建一个连接
-     * @param relationId
-     * @param session
-     * @return
+     * 初始化操作
      */
-    void openConnect(String relationId, Session session);
+    void init();
 
     /**
-     * 服务器和用户关闭一个连接
-     * @param relationId
-     */
-    void closeConnect(String relationId);
-
-    /**
-     * 发送信息
+     * 链接断开的操作
      * @param session
-     * @param message
      */
-    void sendMessage(Session session, String message);
+    void destroy(Session session);
 
     /**
      * 接受一个信息
      * @param message
      * @param session
      */
-    void receiveMessage(String message, Session session);
+    void receiveMessage(SocketMessage message, SocketSession session);
 }

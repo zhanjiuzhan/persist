@@ -1,23 +1,20 @@
 package com.jcpl.persist;
 
+
+
 import javax.websocket.Session;
 
 /**
  * @author Administrator
  */
-public class DefineSession {
+public class SocketSession {
 
-    private String relationId;
     private String username;
     private double latitude;
     private double longitude;
     private Session session;
 
-    public DefineSession() {}
-
-    public DefineSession(String relationId, String username, Session session) {
-        this.username = username;
-        this.relationId = relationId;
+    public SocketSession(Session session) {
         this.session = session;
     }
 
@@ -43,14 +40,6 @@ public class DefineSession {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
-    }
-
-    public String getRelationId() {
-        return relationId;
-    }
-
-    public void setRelationId(String relationId) {
-        this.relationId = relationId;
     }
 
     public Session getSession() {

@@ -5,9 +5,28 @@ package com.jcpl.persist;
  */
 public class SocketMessage {
 
+    /**
+     * 通讯具有的session id 由websocket框架生成
+     */
+    private String id;
+
+    /**
+     * 聊天的类型
+     */
     private int type;
 
+    /**
+     * 发送的内容
+     */
     private String content;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public int getType() {
         return type;
@@ -28,7 +47,8 @@ public class SocketMessage {
     @Override
     public String toString() {
         return "SocketMessage{" +
-                "type=" + type +
+                "id='" + id + '\'' +
+                ", type=" + type +
                 ", content='" + content + '\'' +
                 '}';
     }

@@ -6,9 +6,9 @@ import com.alibaba.fastjson.JSON;
  * 链接心跳
  * @author Administrator
  */
-public class Heartbeat {
+public class SocketHeartbeat {
 
-    private String relationId;
+    private String userId;
 
     /**
      * 心跳数
@@ -25,12 +25,12 @@ public class Heartbeat {
      */
     private double longitude;
 
-    public String getRelationId() {
-        return relationId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setRelationId(String relationId) {
-        this.relationId = relationId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public int getHeart() {
@@ -60,11 +60,11 @@ public class Heartbeat {
     public static void main(String[] args) {
         SocketMessage socketMessage = new SocketMessage();
         socketMessage.setType(0);
-        Heartbeat heartbeat = new Heartbeat();
+        SocketHeartbeat heartbeat = new SocketHeartbeat();
         heartbeat.setHeart(1);
         heartbeat.setLatitude(12.442);
         heartbeat.setLongitude(54.452);
-        heartbeat.setRelationId("934a9e5a57124aa4ad52d797bd9c6107");
+        heartbeat.setUserId("934a9e5a57124aa4ad52d797bd9c6107");
         socketMessage.setContent(JSON.toJSONString(heartbeat));
         System.out.println(JSON.toJSONString(socketMessage));
     }

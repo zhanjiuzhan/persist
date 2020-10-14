@@ -1,7 +1,10 @@
 package com.jcpl.persist.websocket.server;
 
+import com.alibaba.fastjson.JSON;
+import com.jcpl.persist.SocketMessage;
 import com.jcpl.persist.SocketService;
-import com.jcpl.persist.websocket.config.WebSocketConfig;
+import com.jcpl.persist.SocketSession;
+import com.jcpl.persist.config.WebSocketConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -14,6 +17,8 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 /**
  * webSocketServer 不是单例的 是多例的
@@ -34,11 +39,12 @@ public class WebSocketServer implements ApplicationContextAware {
      */
     @OnOpen
     public void onOpen(Session session){
-        logger.info(" ***** 链接创建成功[ sessionId : " + session.getId() + " 最大空闲时间: " + config.getMaxIdleTimeOut() + "]");
+        logger.info(" ***** 链接创建成功[ sessionId: " + session.getId() + ", 最大空闲时间: " + config.getMaxIdleTimeOut() + "]");
         // 设置空闲超时时间 单位毫秒 在该时间内session没有会话 那么会自动关闭链接
         // 并且会触发onclose动作
         session.setMaxIdleTimeout(config.getMaxIdleTimeOut());
-        // TODO 初始化操作
+        // 初始化操作
+        socketService.init();
     }
 
     /**
@@ -47,13 +53,8 @@ public class WebSocketServer implements ApplicationContextAware {
      */
     @OnClose
     public void onClose(Session session){
-        logger.info(" ***** 链接关闭[ sessionId : " + session.getId() + "]");
-        // TODO 清理操作
-        try {
-            if (session != null) {
-                session.close();
-            }
-        } catch (Exception e) {}
+        logger.info(" ***** 链接关闭[ sessionId: " + session.getId() + "]");
+        destroyConnect(session);
     }
 
     /**
@@ -63,7 +64,23 @@ public class WebSocketServer implements ApplicationContextAware {
      */
     @OnMessage
     public void onMessage(final String message, final Session session) {
-        socketService.receiveMessage(message, session);
+        try {
+            if (message == null || message.length() == 0 || session == null) {
+                throw new Exception("空的message或者session无效!");
+            }
+            String msg = new String(Base64.getDecoder().decode(message), StandardCharsets.UTF_8);
+            // 转换接受到的消息
+            SocketMessage socketMessage = JSON.parseObject(msg, SocketMessage.class);
+            if (socketMessage == null || session.getId().equals(socketMessage.getId())) {
+                throw new Exception("空的message或者session 身份不正!");
+            }
+            // 包装自己的session
+            SocketSession socketSession = new SocketSession(session);
+            socketService.receiveMessage(socketMessage, socketSession);
+        } catch (Exception e) {
+            logger.error(" ***** 接受到的信息不和法, 疑似错误信息[msg: " + e.getMessage() + "]");
+            destroyConnect(session);
+        }
     }
 
     /**
@@ -73,12 +90,8 @@ public class WebSocketServer implements ApplicationContextAware {
      */
     @OnError
     public void onError(Session session, Throwable throwable) {
-        logger.error("发生链接错误: " + throwable.getMessage());
-        try {
-            if (session != null) {
-                session.close();
-            }
-        } catch (Exception e) {}
+        logger.error(" ***** 链接异常[ sessionId: " + session.getId() + ", 错误信息: " + throwable.getMessage() + "]");
+        destroyConnect(session);
     }
 
     @Override
@@ -87,9 +100,14 @@ public class WebSocketServer implements ApplicationContextAware {
         WebSocketServer.socketService = applicationContext.getBean(SocketService.class);
         config = applicationContext.getBean(WebSocketConfig.class);
         if (WebSocketServer.socketService == null || config == null) {
-            logger.info(" ***** socket服务初始化失败, 没有可用的socket服务.");
+            logger.error(" ***** socket服务初始化失败, 没有可用的socket服务.");
             throw new RuntimeException("Bean SocketService or WebSocketConfig not found.");
         }
         logger.info(" ***** socket服务初始化完成");
+    }
+
+    private void destroyConnect(Session session) {
+        // 清理操作
+        socketService.destroy(session);
     }
 }

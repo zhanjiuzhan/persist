@@ -17,7 +17,7 @@ public interface GeodesyUtils {
         return getDistance(sLatitude, sLongitude, eLatitude, eLongitude, Ellipsoid.Sphere);
     }
 
-    public static double getWGS84Distance(final double sLatitude, final double sLongitude, final double eLatitude, final double eLongitude) {
+    static double getWGS84Distance(final double sLatitude, final double sLongitude, final double eLatitude, final double eLongitude) {
         return getDistance(sLatitude, sLongitude, eLatitude, eLongitude, Ellipsoid.WGS84);
     }
 
