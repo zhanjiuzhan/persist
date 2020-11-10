@@ -1,0 +1,20 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: persist-eureka-server
+
+eureka:
+  instance:
+    hostname: persist.eureka.org
+  server:
+    eviction-interval-timer-in-ms: 60000
+    wait-time-in-ms-when-sync-empty: 300000
+  client:
+    # 不向注册中心注册自己
+    register-with-eureka: false
+    # 表示自己就是服务实例 不用取检索服务
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka

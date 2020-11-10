@@ -2,6 +2,8 @@ server:
   port: 8888
 
 spring:
+  application:
+    name: persist-user
   rabbitmq:
     host: localhost
     port: 5672
@@ -71,3 +73,15 @@ spring:
       maxPoolPreparedStatementPerConnectionSize: 20
       useGlobalDataSourceStat: true
       connectionProperties: 'druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500'
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://persist.eureka.org:9090/eureka
+
+#feign 使用 okhttp
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration monitorInterval="5">
     <Properties>
-        <property name="LOG_PATTERN" value="persist-user-%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %F - %m%n"/>
+        <property name="LOG_PATTERN" value="eureka-%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %F - %m%n"/>
     </Properties>
 
     <appenders>
         <console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="${LOG_PATTERN}"/>
-            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
         </console>
     </appenders>
 
@@ -18,9 +18,6 @@
         <Logger name="org.springframework" level="info" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
-        <logger name="com.jcpl.persist.feign" level="debug" additivity="false">
-            <AppenderRef ref="Console"/>
-        </logger>
         <root level="info">
             <appender-ref ref="Console"/>
         </root>

@@ -46,7 +46,7 @@ public class RedisUtils<K, V> {
     }
 
     private ValueOperations<K, V> getStringObj() {
-        return Optional.ofNullable(redisTemplate.opsForValue()).orElseThrow(()->new RuntimeException("取得String累心的redis实例出错")) ;
+        return Optional.ofNullable(redisTemplate.opsForValue()).orElseThrow(()->new RuntimeException("取得String类型的redis实例出错")) ;
     }
 
     public boolean zadd(K key, V value, double score) {
@@ -62,6 +62,6 @@ public class RedisUtils<K, V> {
     }
 
     private ZSetOperations<K, V> getZSetObj() {
-        return Optional.ofNullable(redisTemplate.opsForZSet()).orElseThrow(()->new RuntimeException("取得String累心的redis实例出错")) ;
+        return Optional.ofNullable(redisTemplate.opsForZSet()).orElseThrow(()->new RuntimeException("取得String类型的redis实例出错")) ;
     }
 }

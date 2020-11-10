@@ -10,3 +10,5 @@
 
 [测试地址](http://localhost:8088/config-dev.properties): 
 http://localhost:8088/config-dev.properties
+
+POST /actuator/refresh 来进行刷新的
