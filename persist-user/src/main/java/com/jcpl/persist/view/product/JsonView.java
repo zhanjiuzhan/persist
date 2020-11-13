@@ -50,6 +50,10 @@ public class JsonView extends ModelAndView {
         }
     }
 
+    public JsonRet getJsonRet() {
+        return jsonRet;
+    }
+
     public static class JsonRet {
         private int code;
         private Object data;

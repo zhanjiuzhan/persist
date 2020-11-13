@@ -67,7 +67,7 @@ public class TestController {
         return JsonRetFactory.getRet(relationDaoRedisImpl.getRelation(relation.getRelationId()));
     }
 
-    @RequestMapping("/eureka.do")
+    @GetMapping("/eureka.do")
     @ResponseBody
     public String eurekaTest() {
         List<ServiceInstance> list = discoveryClient.getInstances("account");
@@ -77,7 +77,7 @@ public class TestController {
         return "ok";
     }
 
-    @RequestMapping("/ribbon.do")
+    @GetMapping("/ribbon.do")
     @ResponseBody
     public String ribbonRurekaTest() {
         List<ServiceInstance> list = discoveryClient.getInstances("account");
@@ -112,15 +112,15 @@ public class TestController {
         return new RestTemplate();
     }
 
-    @RequestMapping("/ribbon2.do")
+    @GetMapping("/ribbon2.do")
     @ResponseBody
     public String ribbonRurekaTest2() {
         return restTemplate.getForObject("http://account/admin/user/gets.do", String.class);
     }
 
-    @RequestMapping("/feign.do")
+    @GetMapping("/feign.do")
     @ResponseBody
     public String feignTest() {
-        return userRemoteClient.gets("test");
+        return "";
     }
 }
