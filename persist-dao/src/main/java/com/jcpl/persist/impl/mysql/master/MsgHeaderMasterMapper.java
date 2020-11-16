@@ -17,6 +17,6 @@ public interface MsgHeaderMasterMapper {
      * @param message
      * @return
      */
-    @Insert("insert into " + TABLE_NAME + " values (#{id}, #{type}, #{group}, #{status}, #{latitude}, #{longitude}, now())")
+    @Insert("insert into " + TABLE_NAME + " values (#{id}, #{username}, #{type}, #{group}, #{status}, #{latitude}, #{longitude}, now())")
     int addMessage(BaseMessage message);
 }

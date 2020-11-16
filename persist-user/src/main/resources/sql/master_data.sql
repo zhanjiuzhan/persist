@@ -1,4 +1,4 @@
-insert into message_header values (1, 1, 0 ,0, 113.3317, 23.156019, now()) on duplicate key update createTime = values(createTime);
+insert into message_header values (1, 'chenglei', 1, 0 ,0, 113.3317, 23.156019, now()) on duplicate key update createTime = values(createTime);
 insert into help_message_content values (
     1,
     '技术人员测试信息',

@@ -14,6 +14,11 @@ import java.util.Arrays;
 public class HelpMsgFrom extends MessageFrom<HelpMessage> {
 
     /**
+     * 发布用户的标志
+     */
+    private String username;
+
+    /**
      * 信息类型
      */
     private int type;
@@ -47,6 +52,14 @@ public class HelpMsgFrom extends MessageFrom<HelpMessage> {
      * 图片地址
      */
     private String[] imgPath;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public int getType() {
         return type;
@@ -107,6 +120,7 @@ public class HelpMsgFrom extends MessageFrom<HelpMessage> {
     @Override
     public HelpMessage convert() {
         HelpMessage message = new HelpMessage();
+        message.setUsername(this.username);
         message.setContent(this.content);
         if (this.detail != null) {
             message.setDetail(this.detail);
@@ -115,7 +129,7 @@ public class HelpMsgFrom extends MessageFrom<HelpMessage> {
             message.setImgPath(JSON.toJSONString(this.imgPath));
         }
         message.setLatitude(this.latitude);
-        message.setLongitude(this.getLongitude());
+        message.setLongitude(this.latitude);
         message.setTitle(this.title);
         message.setType(this.type);
         return message;
@@ -123,6 +137,7 @@ public class HelpMsgFrom extends MessageFrom<HelpMessage> {
 
     @Override
     public void validated() {
+        ExceptionEnum.INVALID_PARAMETER_EXCEPTION.assertNotNull(username, "用户标志必须要", "username", username);
         ExceptionEnum.INVALID_PARAMETER_EXCEPTION.assertTrue(BaseMessage.Type.contains(type), "消息类型错误", "type", type);
         ExceptionEnum.INVALID_PARAMETER_EXCEPTION.assertTrue(
             title != null && title.length() > 0 && title.length() <= 16, "标题不合法", "title", title);
@@ -138,7 +153,8 @@ public class HelpMsgFrom extends MessageFrom<HelpMessage> {
     @Override
     public String toString() {
         return "HelpMsgFrom{" +
-                "type=" + type +
+                "username='" + username + '\'' +
+                ", type=" + type +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", detail='" + detail + '\'' +

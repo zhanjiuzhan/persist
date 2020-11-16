@@ -9,6 +9,7 @@ import java.io.Serializable;
 public class BaseMessage implements Serializable {
 
     private long id;
+    private String username;
     private int type;
     private int group;
     private int status;
@@ -29,6 +30,14 @@ public class BaseMessage implements Serializable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getType() {
@@ -77,6 +86,20 @@ public class BaseMessage implements Serializable {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    @Override
+    public String toString() {
+        return "BaseMessage{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", type=" + type +
+                ", group=" + group +
+                ", status=" + status +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", createTime='" + createTime + '\'' +
+                '}';
     }
 
     public enum Type {

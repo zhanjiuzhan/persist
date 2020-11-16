@@ -17,10 +17,6 @@ import java.util.Map;
 public class UserRemoteClientImpl extends FeignBaseServer {
 
     private Logger logger = LoggerFactory.getLogger(UserRemoteClientImpl.class);
-    private final String ACCOUNT_USER = "account-user";
-
-    @Value("${spring.application.name}")
-    private String project;
 
     @Autowired
     private UserRemoteClient userRemoteClient;
@@ -48,11 +44,12 @@ public class UserRemoteClientImpl extends FeignBaseServer {
      * 用户是否具有权限信息
      * @param username
      * @param token
+     * @param project
      * @param url
      * @param method
      * @return
      */
-    public boolean isPermission(final String username, final String token, final String url, final String method) {
-        return booleanResult(()->userRemoteClient.isPermission(username, token, ACCOUNT_USER, url, method));
+    public boolean isPermission(final String username, final String token, final String project, final String url, final String method) {
+        return booleanResult(()->userRemoteClient.isPermission(username, token, project, url, method));
     }
 }

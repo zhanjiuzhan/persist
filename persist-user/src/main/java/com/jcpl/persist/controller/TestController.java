@@ -128,6 +128,6 @@ public class TestController {
     @GetMapping("/feign1.do")
     @ResponseBody
     public boolean feignTest1() {
-        return userRemoteClientImpl.isPermission("dw_chenglei", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJvcmcuYWNjb3VudC5jbCIsInN1YiI6ImR3X2NoZW5nbGVpIiwiaWF0IjoxNjA1NDkzMzgwLCJleHAiOjE2MDU0OTUxODB9.CVTRzh_BeemgAMMzj2WWHVdFsyQqM8DziY6fNl4DTU0wMht5ydjNhatoZA8XrSaLo8IPeyGdKXcqfWS9hD0OGw", "/feign/isLogin.do", "GET");
+        return userRemoteClientImpl.isPermission("dw_chenglei", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJvcmcuYWNjb3VudC5jbCIsInN1YiI6ImR3X2NoZW5nbGVpIiwiaWF0IjoxNjA1NDkzMzgwLCJleHAiOjE2MDU0OTUxODB9.CVTRzh_BeemgAMMzj2WWHVdFsyQqM8DziY6fNl4DTU0wMht5ydjNhatoZA8XrSaLo8IPeyGdKXcqfWS9hD0OGw", "account-user","/feign/isLogin.do", "GET");
     }
 }
