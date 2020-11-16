@@ -4,6 +4,7 @@ import com.jcpl.persist.feign.UserRemoteClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,10 @@ import java.util.Map;
 public class UserRemoteClientImpl extends FeignBaseServer {
 
     private Logger logger = LoggerFactory.getLogger(UserRemoteClientImpl.class);
+    private final String ACCOUNT_USER = "account-user";
+
+    @Value("${spring.application.name}")
+    private String project;
 
     @Autowired
     private UserRemoteClient userRemoteClient;
@@ -25,17 +30,29 @@ public class UserRemoteClientImpl extends FeignBaseServer {
      * @param permissions
      * @return
      */
-    public boolean upPermissions(List<Map<String, String>> permissions) {
-        try {
-            Boolean op = (Boolean) resolveResponse(userRemoteClient.upPermissions(permissions));
-            if (op == null) {
-                logger.warn("RPC 远程调用反馈结果为null！");
-                return false;
-            }
-            return op;
-        } catch (Exception e) {
-            logger.warn("RPC 远程调用请求异常: " + e.getMessage());
-            return false;
-        }
+    public boolean upPermissions(final List<Map<String, String>> permissions) {
+        return booleanResult(()->userRemoteClient.upPermissions(permissions));
+    }
+
+    /**
+     * 用户是否已经登陆了
+     * @param username
+     * @param token
+     * @return
+     */
+    public boolean isLogin(final String username, final String token) {
+        return booleanResult(()->userRemoteClient.isLogin(username, token));
+    }
+
+    /**
+     * 用户是否具有权限信息
+     * @param username
+     * @param token
+     * @param url
+     * @param method
+     * @return
+     */
+    public boolean isPermission(final String username, final String token, final String url, final String method) {
+        return booleanResult(()->userRemoteClient.isPermission(username, token, ACCOUNT_USER, url, method));
     }
 }

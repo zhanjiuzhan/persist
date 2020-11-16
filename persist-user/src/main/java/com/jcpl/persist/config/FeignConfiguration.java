@@ -1,8 +1,10 @@
 package com.jcpl.persist.config;
 
+import com.jcpl.persist.JcUUIDUtils;
 import feign.Logger;
 import feign.Request;
 import feign.RequestInterceptor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,6 +14,11 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class FeignConfiguration {
+
+    private String KEY = "shitupojie@liangxinhezai ";
+
+    @Value("${spring.application.name}")
+    private String projectName;
 
     /**
      * NONE 不输出日志
@@ -38,7 +45,11 @@ public class FeignConfiguration {
     @Bean
     public RequestInterceptor accountFeignInterceptor() {
         return requestTemplate -> {
-            System.out.println("feign 自定义拦截: " + requestTemplate.queryLine());
+            // 发送Feign 请求的时候做成请求头
+            long time = System.currentTimeMillis();
+            requestTemplate.header("project", projectName);
+            requestTemplate.header("timesnap", time + "");
+            requestTemplate.header("sign", JcUUIDUtils.md5(time + KEY + projectName));
         };
     }
 }

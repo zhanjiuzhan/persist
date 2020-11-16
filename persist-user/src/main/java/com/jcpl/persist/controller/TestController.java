@@ -3,6 +3,7 @@ package com.jcpl.persist.controller;
 import com.jcpl.persist.Relation;
 import com.jcpl.persist.RelationDao;
 import com.jcpl.persist.feign.UserRemoteClient;
+import com.jcpl.persist.feign.impl.UserRemoteClientImpl;
 import com.jcpl.persist.view.JsonRetFactory;
 import com.jcpl.persist.view.product.JsonView;
 import com.netflix.loadbalancer.ILoadBalancer;
@@ -44,7 +45,7 @@ public class TestController {
     private RestTemplate restTemplate;
 
     @Autowired
-    private UserRemoteClient userRemoteClient;
+    private UserRemoteClientImpl userRemoteClientImpl;
 
     @GetMapping("/test1.do")
     public JsonView test1() {
@@ -120,7 +121,13 @@ public class TestController {
 
     @GetMapping("/feign.do")
     @ResponseBody
-    public String feignTest() {
-        return "";
+    public boolean feignTest() {
+        return userRemoteClientImpl.isLogin("dw_chenglei", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJvcmcuYWNjb3VudC5jbCIsInN1YiI6ImR3X2NoZW5nbGVpIiwiaWF0IjoxNjA1NDkzMzgwLCJleHAiOjE2MDU0OTUxODB9.CVTRzh_BeemgAMMzj2WWHVdFsyQqM8DziY6fNl4DTU0wMht5ydjNhatoZA8XrSaLo8IPeyGdKXcqfWS9hD0OGw");
+    }
+
+    @GetMapping("/feign1.do")
+    @ResponseBody
+    public boolean feignTest1() {
+        return userRemoteClientImpl.isPermission("dw_chenglei", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJvcmcuYWNjb3VudC5jbCIsInN1YiI6ImR3X2NoZW5nbGVpIiwiaWF0IjoxNjA1NDkzMzgwLCJleHAiOjE2MDU0OTUxODB9.CVTRzh_BeemgAMMzj2WWHVdFsyQqM8DziY6fNl4DTU0wMht5ydjNhatoZA8XrSaLo8IPeyGdKXcqfWS9hD0OGw", "/feign/isLogin.do", "GET");
     }
 }

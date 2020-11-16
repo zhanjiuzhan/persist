@@ -5,6 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -26,19 +27,22 @@ public interface UserRemoteClient {
 
     /**
      * 用户是否已经登陆了
+     * @param username
      * @param token
      * @return
      */
-    @GetMapping("")
-    String isLogin(String token);
+    @GetMapping("/feign/isLogin.do")
+    String isLogin(@RequestParam String username, @RequestParam String token);
 
     /**
      * 用户是否具有权限信息
+     * @param username
+     * @param token
      * @param project
      * @param url
      * @param method
      * @return
      */
-    @GetMapping("")
-    String isPermission(String project, String url, String method);
+    @GetMapping("/feign/isPermission.do")
+    String isPermission(@RequestParam String username, @RequestParam String token, @RequestParam String project, @RequestParam String url, @RequestParam String method);
 }
