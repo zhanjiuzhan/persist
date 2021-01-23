@@ -2,9 +2,8 @@ package com.jcpl.persist.impl.mysql.master;
 
 import com.jcpl.persist.LogDao;
 import com.jcpl.persist.OperateLog;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import javax.annotation.Resource;
 
 /**
  * @author Administrator
@@ -12,7 +11,7 @@ import javax.annotation.Resource;
 @Repository
 public class LogDaoMasterMysqlImpl implements LogDao {
 
-    @Resource
+    @Autowired(required = false)
     private LogDaoMasterMapper logDaoMasterMapper;
 
     @Override

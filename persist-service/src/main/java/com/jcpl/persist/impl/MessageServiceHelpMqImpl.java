@@ -91,8 +91,6 @@ public class MessageServiceHelpMqImpl implements MessageService<HelpMessage>, Ch
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        if (applicationContext != null) {
-            publishMap = applicationContext.getBeansOfType(Publish.class);
-        }
+        publishMap = applicationContext.getBeansOfType(Publish.class);
     }
 }

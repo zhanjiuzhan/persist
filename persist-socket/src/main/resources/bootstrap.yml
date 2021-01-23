@@ -4,7 +4,7 @@ spring:
     config:
       name: config
       uri:
-        - http://localhost:8088
+        - http://localhost:8098
       profile: dev
     ## 开启消息跟踪
     bus:

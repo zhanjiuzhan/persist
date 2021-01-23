@@ -15,7 +15,10 @@ import java.util.Optional;
 public class WebSocketConfig implements EnvironmentAware {
     private final String MAX_IDLE_TIMEOUT_KEY = "socket.session.maxIdleTimeOut";
 
-    private long maxIdleTimeOut = 5000;
+    /**
+     * websoket 最大空闲时间 毫秒 当该时间内无通信 session自动关闭
+     */
+    private long maxIdleTimeOut = 60000;
 
     public long getMaxIdleTimeOut() {
         return maxIdleTimeOut;
@@ -24,6 +27,6 @@ public class WebSocketConfig implements EnvironmentAware {
     @Override
     public void setEnvironment(Environment env) {
         Optional.ofNullable(env).map(environment->environment.getProperty(MAX_IDLE_TIMEOUT_KEY))
-            .ifPresent(val->maxIdleTimeOut = Long.valueOf(val));
+            .ifPresent(val->maxIdleTimeOut = Long.parseLong(val));
     }
 }
